@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wishlist | Tokoku.id</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "on-surface": "#141b2b",
+                        "inverse-surface": "#293040",
+                        "on-primary-fixed": "#0f0069",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-tertiary-fixed": "#151c27",
+                        "outline": "#777587",
+                        "tertiary-container": "#616876",
+                        "secondary-fixed": "#e1e3e4",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#dce2f3",
+                        "on-secondary-container": "#626566",
+                        "secondary-fixed-dim": "#c5c7c8",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c0c7d6",
+                        "surface-container-high": "#e1e8fd",
+                        "secondary": "#5c5f60",
+                        "primary": "#3e32d3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#e9e5ff",
+                        "surface-bright": "#f9f9ff",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#49505d",
+                        "secondary-container": "#e1e3e4",
+                        "primary-container": "#5850ec",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-surface-variant": "#464555",
+                        "surface": "#f9f9ff",
+                        "surface-container": "#e9edff",
+                        "inverse-primary": "#c3c0ff",
+                        "outline-variant": "#c7c4d8",
+                        "on-secondary-fixed-variant": "#454748",
+                        "on-error": "#ffffff",
+                        "on-background": "#141b2b",
+                        "surface-variant": "#dce2f7",
+                        "on-secondary-fixed": "#191c1d",
+                        "surface-tint": "#4e44e2",
+                        "on-tertiary-fixed-variant": "#404754",
+                        "surface-dim": "#d3daef",
+                        "surface-container-highest": "#dce2f7",
+                        "primary-fixed": "#e2dfff",
+                        "on-primary-fixed-variant": "#3424ca",
+                        "background": "#f9f9ff",
+                        "on-tertiary-container": "#e1e8f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "3rem",
+                        "sm": "1rem",
+                        "lg": "2rem",
+                        "gutter": "1.5rem",
+                        "max-width": "1280px",
+                        "xs": "0.5rem",
+                        "unit": "4px",
+                        "md": "1.5rem",
+                        "margin-mobile": "1rem"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            color: #141b2b;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .product-card-shadow {
+            box-shadow: 0 12px 24px rgba(62, 50, 211, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background">
+<!-- TopNavBar -->
+<header class="bg-surface sticky top-0 z-50 border-b border-outline-variant shadow-sm docked full-width">
+<div class="flex justify-between items-center h-16 px-gutter max-w-max-width mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Tokoku.id</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Categories</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Reviews</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden lg:block relative">
+<input class="bg-surface-container-low border-none rounded-full px-4 py-2 text-body-md focus:ring-2 focus:ring-primary w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-on-surface hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold text-body-md hover:opacity-90 transition-opacity">
+                    My Account
+                </button>
+</div>
+</div>
+</header>
+<div class="max-w-max-width mx-auto flex gap-6 px-gutter py-8">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col gap-2 p-4 h-screen sticky top-24 bg-surface-container-low rounded-xl w-64 shadow-sm">
+<div class="mb-6 px-2">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Welcome back, orang!</h2>
+<p class="text-label-caps font-label-caps text-on-surface-variant opacity-70">Customer Portal</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                    Profile
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-bold font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    Wishlist
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                    My Orders
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+                    Checkout
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="home_pin">home_pin</span>
+                    Address Book
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    Notification Settings
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Payment Methods
+                </a>
+</nav>
+<div class="pt-4 border-t border-outline-variant mt-4">
+<button class="w-full flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all font-body-md">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Logout
+                </button>
+</div>
+</aside>
+<!-- Main Content (Wishlist Grid) -->
+<main class="flex-grow">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Your Wishlist</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">You have 6 items saved for later.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-body-md font-medium hover:bg-surface-container transition-colors">Sort by: Recent</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional studio product shot of a sleek, charcoal-colored ergonomic keyboard with subtle violet backlit keys. The keyboard is placed on a pristine white minimalist desk with soft ambient lighting creating a clean light-mode atmosphere. The style is modern corporate tech aesthetic with a focus on tactile luxury and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_ZmQ0wIvGiRJZB0qAy9K4zfrUUTe0Apz9k8YulF7aetTt_qy3-CeqCIwcXiwFYY3WRyZuyNxGqANr5feqYZKd33jb7AFxIFWOtuyW6o8L7wyQq0z_WuyHSQviW_DWHqTfplV8Q_igdKPiepKI-p2eLKqT2Bb4Y9WEwpLk7L3rO2DQJ5M6IHmPD-EhRmk6NXvCgl57YtVHrJNnGv3bAK_7Z9n97C_-Y0jLV8dnbqAzbdZJIfKvrn-d43edNfgsid3BZPiZ2837oJo"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Elite Ergonomic Keyboard</h3>
+</div>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">Premium mechanical switches for all-day comfort and productivity in the office.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-headline-sm font-bold text-on-surface">$129.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-end lifestyle shot of professional noise-canceling headphones in a sophisticated slate blue color. The headphones rest on a clean wooden surface next to a notebook and a small succulent, bathed in warm natural morning light. The overall mood is calm, professional, and high-trust, emphasizing a premium remote work lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAcOw8Twov5heKHa_JQpijeMHMJqFWLxzdBMeBH589jMOVOZttrD-Jj2EFnBnUXNqXJWDi9a0ZeIiAUo_6-SeQySHsuWWsmnSHu0OOajSlU2wePju5eXZCJdYjDrLr5w7Lcizul02YJS6i5fERwI-0k7im5E9TTaxyqnwpa0MTkyWk9NnjlsnPHq_mewdE-88KpRynOunC1jfBuQ7sUhR1EN-PiqPleQFKivT-qFkTDqm5jXKb2jOrtj4UiSHOTN4T24w9Zc75KiA"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Focus Pro ANC Headphones</h3>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">40-hour battery life with industry-leading active noise cancellation for deep work.</p>
+<div class="flex items-center justify-between">
+<span class="text-headline-sm font-bold text-on-surface">$299.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist design of a professional leather laptop sleeve in deep navy blue. The sleeve is shown standing upright against a crisp off-white background with a soft, diffused shadow. The lighting is clean and bright, highlighting the premium grain of the leather and the precise stitching. Elegant and professional aesthetic for modern business." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfGEeoBAPKRqj9faCXDLSV3YHOmJuHCwSb1BifyWH7Psh3KdxCCE5mD6HKWKWixbZ0YPw210eWezXfBOEqYAu-aAIFan2CuwM7xJTt9j_r0EVGO6ccQFVjsbvW6iZ06aA54RR0XYtGRxYpbu5DV4borKJ081ND2TUtQ7sDyoZWSsMUZpS1Ss0F-fg3dPY0JrpZGQXqilJZmv8ih2mIIheAk64o_0rlscSE2CEgPUET7LLj4_96SBDE9n9cfSILVL6p8JfDXPn7uXE"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Executive Leather Sleeve</h3>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">Hand-stitched genuine leather sleeve designed for 14-inch to 16-inch laptops.</p>
+<div class="flex items-center justify-between">
+<span class="text-headline-sm font-bold text-on-surface">$85.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A smart desk lamp with a minimalist white aluminum frame. The lamp is casting a warm, soft glow on a designer's desk with scattered architectural blueprints. The aesthetic is clean, bright, and modern, using high-key lighting to emphasize the product's sleek lines and professional functionality in a creative studio environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaRjRmOxuEHj-gzsuUhNwmz3hjdrMq1xCuV_auv_Oaky4Tu1idJnVx2BSwaa4nFeeK8M28lBG2Kh3IlCiyl9O-JwhFp4BWIQSvNaXXXTlkIpFt7O_Cro9l5Jf0sBgT-eKByL5Knyq0Imw-2FAeo6Ge3YdKW1m0IQEh4Ylh9TU2GSgsaJdIXlcMj-fWl8LdI6kT1HAHtsl2bGG2BLJcnmvKYkW7M-HMZ5yPL7xUAqLv_zJxGVUyASLjHEw85KdgUhM0G-47O1fdZH8"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Smart Task Desk Lamp</h3>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">Adjustable color temperature and brightness with integrated smartphone controls.</p>
+<div class="flex items-center justify-between">
+<span class="text-headline-sm font-bold text-on-surface">$59.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-quality ceramic coffee tumbler in a matte white finish with a cork base. The tumbler is placed in a bright, modern cafe setting with a blurred background of people working on laptops. The scene is airy and filled with natural light, projecting a clean, eco-conscious, and professional lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlkFmBXKROIruab-c93jGYvnGAkktP4ZtRTjitDIE-EUDtoeJD9VINN7vX52KbAwbCyIITcjGTJKSWTJQz3EgtWtLqyX6YkDestDz6Wxbdtv3Bw3S1FNSMwwi_X3OnMCirz5YMZ72zbpN2z7hOT5KCUWeoNVu6yfF7ESHGY4hQ6pN4aqy6NPb87w2euP2ijGI0gyFh7kZ7EER6JTqZCNz0mbxORxg_Pv5atAzWyMGG8hVGudnnedvAcpTxDkpT2Ghqh1bMZo6nLKU"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Thermal Ceramic Tumbler</h3>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">Double-walled insulation keeps your commute coffee hot for up to 12 hours.</p>
+<div class="flex items-center justify-between">
+<span class="text-headline-sm font-bold text-on-surface">$32.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant hover:border-primary transition-all group product-card-shadow">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek vertical laptop stand made of brushed space-gray aluminum. Two high-end laptops are docked vertically, saving space on a clean, modern white desk. The lighting is bright and even, highlighting the metallic texture and precision of the stand. The image conveys organization, high-performance tech, and professional minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8hbvqKy_kJ3yYsWxUWLKydxgEE3Y9-nFR5KbE48clXZv4oG04J2opiVhtIR1bS3f8PavUY-XICr8uno_znOB3HKREeqkE4TYaUdPEoCIdXzmwnaLZOZ7Uxq_ZZgGHjQHj4mqmVwTNAIhU5pTNMa2lUvqc_Hr0-MUxTpChsfnW03cec0vDk1nAyZHeCNAcpYCZ6vmhhTIfwrsoUYFvTzEj1yOK7_fD2YbAiaJ5FMVhi7QoZf3GMrC008fmwlCcrstl50zrKcnHRWA"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-error shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Space-Saving Vertical Stand</h3>
+<p class="text-body-md text-on-surface-variant mb-4 line-clamp-2">Solid aluminum construction with rubberized grips to protect your devices.</p>
+<div class="flex items-center justify-between">
+<span class="text-headline-sm font-bold text-on-surface">$45.00</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-md font-bold flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_cart">shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation (BottomNavBar) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex justify-around items-center h-16 z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="text-[10px] font-bold">Explore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-[10px] font-bold">Wishlist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</div>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Toggle heart fill state
+        document.querySelectorAll('.material-symbols-outlined[data-icon="favorite"]').forEach(icon => {
+            icon.parentElement.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isFilled = icon.style.fontVariationSettings.includes("'FILL' 1");
+                icon.style.fontVariationSettings = isFilled ? "'FILL' 0" : "'FILL' 1";
+                if (isFilled) {
+                   icon.parentElement.closest('.group')?.classList.add('opacity-50');
+                   setTimeout(() => {
+                      // Logic for removal would go here
+                   }, 300);
+                }
+            });
+        });
+    </script>
+</body></html>

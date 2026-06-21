@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories — Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           BASE — Reset + Variables
+        ============================================ */
+        :root {
+            --primary-50:  #eef2ff; --primary-100: #e0e7ff; --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc; --primary-400: #818cf8; --primary-500: #6366f1;
+            --primary-600: #4f46e5; --primary-700: #4338ca;
+            --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+            --gray-400: #94a3b8; --gray-500: #64748b; --gray-600: #475569; --gray-700: #334155;
+            --gray-800: #1e293b; --gray-900: #0f172a;
+            --success: #10b981; --success-bg: #ecfdf5; --success-light: #d1fae5;
+            --warning: #f59e0b; --warning-bg: #fffbeb;
+            --danger: #ef4444; --danger-bg: #fef2f2; --danger-light: #fee2e2;
+            --info: #3b82f6; --info-bg: #eff6ff;
+            --bg-primary: #ffffff; --bg-secondary: #f8fafc; --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a; --text-secondary: #64748b; --text-muted: #94a3b8; --text-white: #ffffff;
+            --border: #e2e8f0; --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(15,23,42,0.06), 0 2px 4px -2px rgba(15,23,42,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(15,23,42,0.08), 0 4px 6px -4px rgba(15,23,42,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(15,23,42,0.08), 0 8px 10px -6px rgba(15,23,42,0.04);
+            --shadow-focus: 0 0 0 3px rgba(99,102,241,0.15);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+            --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+            --font-normal: 400; --font-medium: 500; --font-semibold: 600; --font-bold: 700;
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+            --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+            --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+            --radius-xl: 1rem; --radius-2xl: 1.5rem; --radius-full: 9999px;
+            --sidebar-width: 260px; --header-height: 64px;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; }
+        body { font-family: var(--font-sans); background: var(--bg-secondary); color: var(--text-primary); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+        ul { list-style: none; }
+        table { border-collapse: collapse; width: 100%; }
+        input, textarea, select { font-family: inherit; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+
+        /* ============================================
+           LAYOUT — Sidebar, Header, Main
+        ============================================ */
+        .app { display: flex; min-height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 200; transition: transform 0.3s ease; }
+        .logo-area { height: var(--header-height); padding: 0 var(--space-6); display: flex; align-items: center; gap: var(--space-3); border-bottom: 1px solid var(--border-light); }
+        .logo-icon { width: 32px; height: 32px; background: var(--primary-500); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .logo-icon svg { width: 18px; height: 18px; color: white; }
+        .logo-text { font-size: var(--text-lg); font-weight: var(--font-bold); color: var(--text-primary); }
+        .nav-menu { flex: 1; padding: var(--space-4); overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); border-radius: var(--radius-md); color: var(--text-secondary); font-size: var(--text-sm); font-weight: var(--font-medium); margin-bottom: var(--space-1); transition: all 0.15s ease; position: relative; white-space: nowrap; }
+        .nav-item:hover { background: var(--gray-50); color: var(--text-primary); }
+        .nav-item.active { background: var(--primary-50); color: var(--primary-700); }
+        .nav-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 20px; background: var(--primary-500); border-radius: 0 var(--radius-full) var(--radius-full) 0; }
+        .nav-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+        .user-area { padding: var(--space-4); border-top: 1px solid var(--border-light); display: flex; align-items: center; gap: var(--space-3); }
+        .user-avatar { width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--primary-100); display: flex; align-items: center; justify-content: center; font-weight: var(--font-bold); color: var(--primary-600); font-size: var(--text-sm); flex-shrink: 0; }
+        .user-name { font-size: var(--text-sm); font-weight: var(--font-semibold); }
+        .user-role { font-size: var(--text-xs); color: var(--text-muted); }
+
+        .main { flex: 1; margin-left: var(--sidebar-width); min-width: 0; }
+        .header { height: var(--header-height); background: var(--bg-primary); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-6); position: sticky; top: 0; z-index: 100; }
+        .header-left, .header-right { display: flex; align-items: center; gap: var(--space-4); }
+        .menu-toggle { display: none; padding: var(--space-2); border-radius: var(--radius-md); color: var(--text-secondary); }
+        .menu-toggle:hover { background: var(--gray-50); }
+        .breadcrumb { font-size: var(--text-sm); color: var(--text-secondary); }
+        .search-box { position: relative; width: 280px; }
+        .search-box input { width: 100%; padding: var(--space-2) var(--space-4) var(--space-2) var(--space-10); border: 1px solid var(--border); border-radius: var(--radius-lg); font-size: var(--text-sm); background: var(--bg-secondary); transition: all 0.15s; }
+        .search-box input:focus { outline: none; border-color: var(--primary-300); box-shadow: var(--shadow-focus); }
+        .search-box svg { position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted); }
+        .icon-btn-header { width: 40px; height: 40px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); position: relative; transition: all 0.15s; }
+        .icon-btn-header:hover { background: var(--gray-50); color: var(--text-primary); }
+        .badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--danger); border-radius: var(--radius-full); border: 2px solid white; }
+        .profile-dropdown { position: relative; }
+        .profile-trigger { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-lg); transition: background 0.15s; }
+        .profile-trigger:hover { background: var(--gray-50); }
+        .profile-trigger img { width: 32px; height: 32px; border-radius: var(--radius-full); object-fit: cover; }
+        .dropdown-menu { position: absolute; top: calc(100% + 8px); right: 0; width: 200px; background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-2); opacity: 0; transform: translateY(-8px) scale(0.96); transition: all 0.15s ease; pointer-events: none; z-index: 150; }
+        .dropdown-menu.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .dropdown-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--text-secondary); transition: all 0.15s; }
+        .dropdown-item:hover { background: var(--gray-50); color: var(--text-primary); }
+        .dropdown-item svg { width: 16px; height: 16px; }
+        .dropdown-divider { height: 1px; background: var(--border-light); margin: var(--space-2) 0; }
+
+        .content { padding: var(--space-6); max-width: 1400px; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* ============================================
+           PAGE HEADER
+        ============================================ */
+        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: var(--space-4); }
+        .page-title { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--text-primary); line-height: 1.25; }
+        .btn-add { display: inline-flex; align-items: center; gap: var(--space-2); padding: 10px 20px; background: var(--primary-600); color: var(--text-white); border: none; border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: var(--font-medium); cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(99,102,241,0.3); }
+        .btn-add:hover { background: var(--primary-700); transform: translateY(-1px); box-shadow: 0 6px 12px -2px rgba(99,102,241,0.4); }
+        .btn-add:active { transform: translateY(0); box-shadow: 0 2px 4px -1px rgba(99,102,241,0.3); }
+        .btn-add svg { width: 16px; height: 16px; }
+
+        /* ============================================
+           FILTER BAR
+        ============================================ */
+        .filter-bar { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 16px 20px; margin-bottom: var(--space-6); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .search-wrapper { position: relative; flex: 1; min-width: 240px; }
+        .search-wrapper input { width: 100%; height: 40px; padding: 0 16px 0 40px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-secondary); font-size: var(--text-sm); color: var(--text-primary); transition: all 0.2s ease; }
+        .search-wrapper input::placeholder { color: var(--text-muted); }
+        .search-wrapper input:focus { outline: none; border-color: var(--primary-300); background: var(--bg-primary); box-shadow: var(--shadow-focus); }
+        .search-wrapper svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted); pointer-events: none; }
+        .filter-select { height: 40px; padding: 0 36px 0 14px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-primary); font-size: var(--text-sm); color: var(--text-primary); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; min-width: 140px; }
+        .filter-select:focus { outline: none; border-color: var(--primary-300); box-shadow: var(--shadow-focus); }
+        .btn-filter { height: 40px; padding: 0 20px; border: 1px solid var(--border); background: var(--bg-primary); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); cursor: pointer; transition: all 0.15s ease; }
+        .btn-filter:hover { border-color: var(--gray-300); background: var(--gray-50); color: var(--text-primary); }
+        .btn-clear { font-size: var(--text-sm); color: var(--danger); font-weight: var(--font-medium); display: flex; align-items: center; gap: 4px; margin-left: auto; cursor: pointer; background: none; border: none; }
+        .btn-clear:hover { text-decoration: underline; }
+        .btn-clear.hidden { display: none; }
+
+        /* ============================================
+           TABLE
+        ============================================ */
+        .table-container { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+        .data-table thead { background: var(--gray-50); }
+        .data-table th { padding: 14px 16px; text-align: left; font-size: var(--text-xs); font-weight: var(--font-semibold); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; border-bottom: 1px solid var(--border); user-select: none; }
+        .data-table th:first-child { padding-left: 24px; }
+        .data-table th:last-child { padding-right: 24px; }
+        .data-table th.sortable { cursor: pointer; }
+        .data-table th.sortable::after { content: '⇅'; margin-left: 6px; color: var(--text-muted); font-size: 10px; }
+        .data-table th.sortable.asc::after { content: '↑'; color: var(--primary-500); }
+        .data-table th.sortable.desc::after { content: '↓'; color: var(--primary-500); }
+        .data-table tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.15s ease; animation: slideIn 0.3s ease forwards; opacity: 0; }
+        .data-table tbody tr:nth-child(1) { animation-delay: 0s; }
+        .data-table tbody tr:nth-child(2) { animation-delay: 0.04s; }
+        .data-table tbody tr:nth-child(3) { animation-delay: 0.08s; }
+        .data-table tbody tr:nth-child(4) { animation-delay: 0.12s; }
+        .data-table tbody tr:nth-child(5) { animation-delay: 0.16s; }
+        .data-table tbody tr:nth-child(6) { animation-delay: 0.20s; }
+        .data-table tbody tr:last-child { border-bottom: none; }
+        .data-table tbody tr:hover { background: var(--gray-50); }
+        .data-table td { padding: 14px 16px; vertical-align: middle; color: var(--text-primary); }
+        .data-table td:first-child { padding-left: 24px; }
+        .data-table td:last-child { padding-right: 24px; }
+
+        .cat-image { width: 48px; height: 48px; border-radius: var(--radius-lg); object-fit: cover; background: var(--gray-100); border: 1px solid var(--border); }
+        .cat-image-placeholder { width: 48px; height: 48px; border-radius: var(--radius-lg); background: var(--primary-50); display: flex; align-items: center; justify-content: center; color: var(--primary-400); }
+        .cat-image-placeholder svg { width: 20px; height: 20px; }
+        .cat-name { font-weight: var(--font-semibold); color: var(--text-primary); font-size: var(--text-sm); }
+        .cat-desc { font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cat-slug { font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace; font-size: var(--text-xs); color: var(--text-muted); background: var(--gray-100); padding: 4px 8px; border-radius: var(--radius-md); display: inline-block; }
+        .parent-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: var(--font-medium); }
+        .parent-badge.root { background: var(--info-bg); color: var(--info); }
+        .parent-badge.sub { background: var(--gray-100); color: var(--text-secondary); }
+        .products-count { font-weight: var(--font-semibold); color: var(--text-primary); }
+        .products-count.zero { color: var(--text-muted); font-weight: var(--font-normal); }
+        .sort-num { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background: var(--gray-100); border-radius: var(--radius-md); font-size: var(--text-xs); font-weight: var(--font-semibold); color: var(--text-secondary); }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: var(--font-medium); white-space: nowrap; }
+        .status-badge::before { content: ''; width: 6px; height: 6px; border-radius: var(--radius-full); }
+        .status-active { background: var(--success-bg); color: var(--success); }
+        .status-active::before { background: var(--success); }
+        .status-inactive { background: var(--gray-100); color: var(--text-muted); }
+        .status-inactive::before { background: var(--gray-400); }
+        .actions { display: flex; align-items: center; gap: 4px; }
+        .action-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: var(--radius-md); cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .action-btn svg { width: 16px; height: 16px; }
+        .action-btn.edit:hover { background: var(--primary-50); color: var(--primary-600); }
+        .action-btn.delete:hover { background: var(--danger-bg); color: var(--danger); }
+
+        /* Empty State */
+        .empty-state { padding: 64px 24px; text-align: center; }
+        .empty-state svg { width: 64px; height: 64px; color: var(--gray-300); margin-bottom: 16px; }
+        .empty-state h3 { font-size: var(--text-lg); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: 8px; }
+        .empty-state p { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: 20px; }
+
+        /* Pagination */
+        .pagination { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-top: 1px solid var(--border-light); background: var(--bg-primary); flex-wrap: wrap; gap: 12px; }
+        .pagination-info { font-size: var(--text-sm); color: var(--text-secondary); }
+        .pagination-btns { display: flex; align-items: center; gap: 4px; }
+        .page-btn { min-width: 36px; height: 36px; padding: 0 8px; border: 1px solid var(--border); background: var(--bg-primary); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .page-btn:hover { border-color: var(--gray-300); background: var(--gray-50); color: var(--text-primary); }
+        .page-btn.active { background: var(--primary-600); border-color: var(--primary-600); color: var(--text-white); }
+        .page-btn.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+        .page-ellipsis { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: var(--text-sm); }
+
+        /* ============================================
+           MODAL — Add/Edit
+        ============================================ */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 100%; max-width: 520px; max-height: 90vh; background: var(--bg-primary); border-radius: var(--radius-2xl); box-shadow: var(--shadow-xl); z-index: 101; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; display: flex; flex-direction: column; }
+        .modal.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .modal-header { padding: 24px 24px 0; display: flex; align-items: center; justify-content: space-between; }
+        .modal-title { font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary); }
+        .modal-close { width: 32px; height: 32px; border: none; background: transparent; border-radius: var(--radius-md); cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .modal-close:hover { background: var(--gray-100); color: var(--text-primary); }
+        .modal-close svg { width: 18px; height: 18px; }
+        .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-primary); margin-bottom: 6px; }
+        .form-label.required::after { content: ' *'; color: var(--danger); }
+        .form-input, .form-select { width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-primary); font-size: var(--text-sm); color: var(--text-primary); transition: all 0.2s ease; }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary-300); box-shadow: var(--shadow-focus); }
+        .form-input.error { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+        .error-msg { font-size: var(--text-xs); color: var(--danger); margin-top: 4px; }
+        .form-textarea { width: 100%; min-height: 100px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-primary); font-size: var(--text-sm); color: var(--text-primary); resize: vertical; font-family: var(--font-sans); line-height: 1.5; }
+        .form-textarea:focus { outline: none; border-color: var(--primary-300); box-shadow: var(--shadow-focus); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; }
+
+        /* Image Upload */
+        .upload-zone { width: 100%; height: 160px; border: 2px dashed var(--border); border-radius: var(--radius-xl); background: var(--bg-secondary); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
+        .upload-zone:hover { border-color: var(--primary-300); background: var(--primary-50); }
+        .upload-zone.dragover { border-color: var(--primary-500); background: var(--primary-50); }
+        .upload-zone svg { width: 32px; height: 32px; color: var(--text-muted); }
+        .upload-text { font-size: var(--text-sm); color: var(--text-secondary); font-weight: var(--font-medium); }
+        .upload-subtext { font-size: var(--text-xs); color: var(--text-muted); }
+        .upload-preview { position: absolute; inset: 0; object-fit: cover; width: 100%; height: 100%; }
+        .upload-remove { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s ease; z-index: 2; }
+        .upload-zone:hover .upload-remove { opacity: 1; }
+        .upload-remove svg { width: 14px; height: 14px; color: white; }
+        .upload-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 1; }
+
+        /* Toggle Switch */
+        .toggle-wrap { display: flex; align-items: center; gap: 12px; }
+        .toggle { position: relative; width: 44px; height: 24px; background: var(--gray-300); border-radius: var(--radius-full); cursor: pointer; transition: background 0.2s ease; flex-shrink: 0; }
+        .toggle.active { background: var(--primary-500); }
+        .toggle-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: var(--text-white); border-radius: var(--radius-full); box-shadow: var(--shadow-sm); transition: transform 0.2s ease; }
+        .toggle.active .toggle-knob { transform: translateX(20px); }
+        .toggle-label { font-size: var(--text-sm); color: var(--text-secondary); }
+
+        .modal-footer { padding: 0 24px 24px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--border-light); padding-top: 16px; }
+        .btn-cancel { padding: 10px 20px; border: 1px solid var(--border); background: var(--bg-primary); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); cursor: pointer; transition: all 0.15s ease; }
+        .btn-cancel:hover { background: var(--gray-50); color: var(--text-primary); }
+        .btn-save { padding: 10px 24px; border: none; background: var(--primary-600); color: var(--text-white); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: var(--font-medium); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-save:hover { background: var(--primary-700); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+        .btn-save:active { transform: translateY(0); }
+        .btn-save.loading { opacity: 0.8; pointer-events: none; }
+        .btn-save.loading::before { content: ''; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: var(--radius-full); animation: spin 0.8s linear infinite; }
+
+        /* ============================================
+           DELETE MODAL
+        ============================================ */
+        .modal-delete { max-width: 400px; }
+        .delete-icon-wrap { width: 56px; height: 56px; background: var(--danger-bg); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+        .delete-icon-wrap svg { width: 24px; height: 24px; color: var(--danger); }
+        .delete-title { font-size: var(--text-lg); font-weight: var(--font-semibold); color: var(--text-primary); text-align: center; margin-bottom: 8px; }
+        .delete-text { font-size: var(--text-sm); color: var(--text-secondary); text-align: center; margin-bottom: 24px; }
+        .delete-footer { display: flex; gap: 12px; justify-content: center; padding: 0 24px 24px; }
+        .btn-delete { padding: 10px 24px; border: none; background: var(--danger); color: var(--text-white); border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: var(--font-medium); cursor: pointer; transition: all 0.2s ease; }
+        .btn-delete:hover { background: #dc2626; transform: translateY(-1px); }
+
+        /* ============================================
+           TOAST
+        ============================================ */
+        .toast-container { position: fixed; top: 24px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 8px; }
+        .toast { min-width: 320px; max-width: 400px; padding: 14px 18px; background: var(--bg-primary); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .toast.active { transform: translateX(0); }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.info { border-left-color: var(--info); }
+        .toast-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+        .toast.success .toast-icon { color: var(--success); }
+        .toast.error .toast-icon { color: var(--danger); }
+        .toast.info .toast-icon { color: var(--info); }
+        .toast-content { flex: 1; }
+        .toast-title { font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: 2px; }
+        .toast-message { font-size: var(--text-xs); color: var(--text-secondary); }
+        .toast-close { width: 20px; height: 20px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: color 0.15s; }
+        .toast-close:hover { color: var(--text-primary); }
+        .toast-close svg { width: 14px; height: 14px; }
+
+        /* ============================================
+           ANIMATIONS
+        ============================================ */
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .menu-toggle { display: flex; }
+            .search-box { display: none; }
+        }
+        @media (max-width: 768px) {
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .search-wrapper { min-width: auto; }
+            .table-container { overflow-x: auto; }
+            .data-table { min-width: 800px; }
+            .modal { max-width: calc(100% - 32px); max-height: calc(100% - 32px); }
+            .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .pagination { flex-direction: column; gap: 12px; align-items: center; }
+            .content { padding: var(--space-4); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="logo-area">
+                <div class="logo-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                <span class="logo-text">Nexus</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>Dashboard</a>
+                <a href="#" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Products</a>
+                <a href="#" class="nav-item active" aria-current="page"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>Categories</a>
+                <a href="#" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Orders</a>
+                <a href="#" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Customers</a>
+                <a href="#" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</a>
+            </nav>
+            <div class="user-area">
+                <div class="user-avatar">JD</div>
+                <div><div class="user-name">John Doe</div><div class="user-role">Admin</div></div>
+            </div>
+        </aside>
+
+        <div class="overlay" id="overlay"></div>
+        <main class="main">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar"><svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+                    <nav class="breadcrumb" aria-label="Breadcrumb"><span>Categories</span> / <span>List</span></nav>
+                </div>
+                <div class="header-right">
+                    <div class="search-box"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input type="text" placeholder="Search..." aria-label="Search"></div>
+                    <button class="icon-btn-header" aria-label="Notifications"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span class="badge-dot"></span></button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <button class="profile-trigger" id="profileTrigger" aria-haspopup="true" aria-expanded="false"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Profile"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="#" class="dropdown-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Profile</a>
+                            <a href="#" class="dropdown-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1 class="page-title">Category List</h1>
+                    <button class="btn-add" id="btnAddCategory"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Add Category</button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <input type="text" id="filterSearch" placeholder="Search categories...">
+                    </div>
+                    <select class="filter-select" id="filterStatus">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <button class="btn-filter" id="btnApplyFilter">Apply Filters</button>
+                    <button class="btn-clear hidden" id="btnClearFilter"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>Clear Filters</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width:60px;">Image</th>
+                                <th class="sortable" data-sort="name">Name</th>
+                                <th class="sortable" data-sort="slug">Slug</th>
+                                <th>Parent</th>
+                                <th class="sortable" data-sort="products">Products</th>
+                                <th class="sortable" data-sort="sort">Sort</th>
+                                <th>Status</th>
+                                <th style="width:80px;text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoryTableBody"></tbody>
+                    </table>
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="categoryModal">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modalTitle">Add Category</h2>
+            <button class="modal-close" id="modalClose" aria-label="Close modal"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="modal-body">
+            <form id="categoryForm">
+                <input type="hidden" id="catId">
+                <div class="form-group">
+                    <label class="form-label required" for="catName">Category Name</label>
+                    <input type="text" class="form-input" id="catName" placeholder="e.g. Electronics">
+                    <div class="error-msg" id="errName"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label required" for="catSlug">Slug</label>
+                    <input type="text" class="form-input" id="catSlug" placeholder="e.g. electronics">
+                    <div class="error-msg" id="errSlug"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="catDesc">Description</label>
+                    <textarea class="form-textarea" id="catDesc" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="catParent">Parent Category</label>
+                    <select class="form-select" id="catParent"><option value="">None (Root Category)</option></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category Image</label>
+                    <div class="upload-zone" id="uploadZone">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="upload-text">Click or drag image here</span>
+                        <span class="upload-subtext">PNG, JPG up to 2MB</span>
+                        <input type="file" class="upload-input" id="catImage" accept="image/*">
+                        <button type="button" class="upload-remove" id="uploadRemove" aria-label="Remove image"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="catSort">Sort Order</label>
+                    <input type="number" class="form-input" id="catSort" placeholder="1" min="0" value="1">
+                </div>
+                <div class="form-group">
+                    <div class="toggle-wrap">
+                        <div class="toggle active" id="catStatusToggle" role="switch" aria-checked="true" tabindex="0"><div class="toggle-knob"></div></div>
+                        <span class="toggle-label" id="catStatusLabel">Active</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" id="btnCancel">Cancel</button>
+            <button class="btn-save" id="btnSave">Save Category</button>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteOverlay"></div>
+    <div class="modal modal-delete" id="deleteModal">
+        <div class="modal-body" style="padding-top:24px;text-align:center;">
+            <div class="delete-icon-wrap"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+            <h3 class="delete-title">Delete Category?</h3>
+            <p class="delete-text" id="deleteText">This action cannot be undone. All products in this category will be affected.</p>
+        </div>
+        <div class="delete-footer">
+            <button class="btn-cancel" id="btnCancelDelete">Cancel</button>
+            <button class="btn-delete" id="btnConfirmDelete">Delete</button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================
+            // MOCK DATA
+            // ============================================
+            let categories = [
+                { id: 1, name: 'Electronics', slug: 'electronics', description: 'Gadgets and electronic devices', image: 'https://images.unsplash.com/photo-1498049860654-af1a5c5668ba?w=100&h=100&fit=crop', parent: null, products: 24, sort: 1, status: 'active' },
+                { id: 2, name: 'Fashion', slug: 'fashion', description: 'Clothing and accessories', image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=100&h=100&fit=crop', parent: null, products: 56, sort: 2, status: 'active' },
+                { id: 3, name: 'Home & Living', slug: 'home-living', description: 'Furniture and home decor', image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=100&h=100&fit=crop', parent: null, products: 18, sort: 3, status: 'active' },
+                { id: 4, name: 'Sports', slug: 'sports', description: 'Sports equipment and gear', image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=100&h=100&fit=crop', parent: null, products: 12, sort: 4, status: 'active' },
+                { id: 5, name: 'Books', slug: 'books', description: 'Physical and digital books', image: null, parent: null, products: 0, sort: 5, status: 'inactive' },
+                { id: 6, name: 'Smartphones', slug: 'smartphones', description: 'Mobile phones and accessories', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop', parent: 'Electronics', products: 8, sort: 1, status: 'active' },
+                { id: 7, name: 'Laptops', slug: 'laptops', description: 'Notebooks and ultrabooks', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=100&h=100&fit=crop', parent: 'Electronics', products: 16, sort: 2, status: 'active' },
+                { id: 8, name: 'Men Clothing', slug: 'men-clothing', description: 'Shirts, pants, and more', image: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=100&h=100&fit=crop', parent: 'Fashion', products: 32, sort: 1, status: 'active' },
+                { id: 9, name: 'Women Clothing', slug: 'women-clothing', description: 'Dresses, tops, and more', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=100&h=100&fit=crop', parent: 'Fashion', products: 24, sort: 2, status: 'active' },
+                { id: 10, name: 'Kitchen', slug: 'kitchen', description: 'Cookware and appliances', image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?w=100&h=100&fit=crop', parent: 'Home & Living', products: 10, sort: 1, status: 'active' },
+            ];
+
+            // ============================================
+            // STATE
+            // ============================================
+            let filteredData = [...categories];
+            let currentPage = 1;
+            const itemsPerPage = 6;
+            let sortCol = null;
+            let sortDir = 'asc';
+            let editingId = null;
+            let deletingId = null;
+            let uploadedImage = null;
+
+            // ============================================
+            // DOM ELEMENTS
+            // ============================================
+            const tableBody = document.getElementById('categoryTableBody');
+            const paginationEl = document.getElementById('pagination');
+            const filterSearch = document.getElementById('filterSearch');
+            const filterStatus = document.getElementById('filterStatus');
+            const btnApplyFilter = document.getElementById('btnApplyFilter');
+            const btnClearFilter = document.getElementById('btnClearFilter');
+            const btnAddCategory = document.getElementById('btnAddCategory');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const categoryModal = document.getElementById('categoryModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalClose = document.getElementById('modalClose');
+            const btnCancel = document.getElementById('btnCancel');
+            const btnSave = document.getElementById('btnSave');
+            const categoryForm = document.getElementById('categoryForm');
+            const catId = document.getElementById('catId');
+            const catName = document.getElementById('catName');
+            const catSlug = document.getElementById('catSlug');
+            const catDesc = document.getElementById('catDesc');
+            const catParent = document.getElementById('catParent');
+            const catSort = document.getElementById('catSort');
+            const catImage = document.getElementById('catImage');
+            const uploadZone = document.getElementById('uploadZone');
+            const uploadRemove = document.getElementById('uploadRemove');
+            const catStatusToggle = document.getElementById('catStatusToggle');
+            const catStatusLabel = document.getElementById('catStatusLabel');
+            const deleteOverlay = document.getElementById('deleteOverlay');
+            const deleteModal = document.getElementById('deleteModal');
+            const btnCancelDelete = document.getElementById('btnCancelDelete');
+            const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+            const deleteText = document.getElementById('deleteText');
+            const toastContainer = document.getElementById('toastContainer');
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const profileTrigger = document.getElementById('profileTrigger');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            // ============================================
+            // SIDEBAR & DROPDOWN
+            // ============================================
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            let dropdownOpen = false;
+            profileTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownOpen = !dropdownOpen;
+                dropdownMenu.classList.toggle('active', dropdownOpen);
+                profileTrigger.setAttribute('aria-expanded', dropdownOpen);
+            });
+            document.addEventListener('click', () => {
+                dropdownOpen = false;
+                dropdownMenu.classList.remove('active');
+                profileTrigger.setAttribute('aria-expanded', 'false');
+            });
+
+            // ============================================
+            // RENDER TABLE
+            // ============================================
+            function renderTable() {
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageData = filteredData.slice(start, end);
+
+                if (pageData.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="8">
+                        <div class="empty-state">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+                            <h3>No categories found</h3>
+                            <p>Try adjusting your search or filters.</p>
+                            <button class="btn-add" onclick="document.getElementById('btnAddCategory').click()">Add Category</button>
+                        </div>
+                    </td></tr>`;
+                    paginationEl.innerHTML = '';
+                    return;
+                }
+
+                tableBody.innerHTML = pageData.map(cat => {
+                    const imgHtml = cat.image
+                        ? `<img src="${cat.image}" alt="${cat.name}" class="cat-image">`
+                        : `<div class="cat-image-placeholder"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>`;
+                    const parentBadge = cat.parent
+                        ? `<span class="parent-badge sub">${cat.parent}</span>`
+                        : `<span class="parent-badge root">Root</span>`;
+                    const productsClass = cat.products === 0 ? 'products-count zero' : 'products-count';
+                    const statusBadge = cat.status === 'active'
+                        ? `<span class="status-badge status-active">Active</span>`
+                        : `<span class="status-badge status-inactive">Inactive</span>`;
+
+                    return `<tr data-id="${cat.id}">
+                        <td>${imgHtml}</td>
+                        <td><div class="cat-name">${cat.name}</div><div class="cat-desc">${cat.description || ''}</div></td>
+                        <td><span class="cat-slug">${cat.slug}</span></td>
+                        <td>${parentBadge}</td>
+                        <td><span class="${productsClass}">${cat.products}</span></td>
+                        <td><span class="sort-num">${cat.sort}</span></td>
+                        <td>${statusBadge}</td>
+                        <td style="text-align:right;">
+                            <div class="actions">
+                                <button class="action-btn edit" onclick="window.editCategory(${cat.id})" aria-label="Edit ${cat.name}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
+                                <button class="action-btn delete" onclick="window.confirmDelete(${cat.id})" aria-label="Delete ${cat.name}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                            </div>
+                        </td>
+                    </tr>`;
+                }).join('');
+
+                renderPagination();
+            }
+
+            // ============================================
+            // PAGINATION
+            // ============================================
+            function renderPagination() {
+                const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+                const start = (currentPage - 1) * itemsPerPage + 1;
+                const end = Math.min(currentPage * itemsPerPage, filteredData.length);
+
+                let html = `<div class="pagination-info">Showing ${start}-${end} of ${filteredData.length} categories</div><div class="pagination-btns">`;
+
+                html += `<button class="page-btn prev-next ${currentPage === 1 ? 'disabled' : ''}" onclick="window.goToPage(${currentPage - 1})"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="window.goToPage(${i})">${i}</button>`;
+                    } else if (i === currentPage - 2 || i === currentPage + 2) {
+                        html += `<span class="page-ellipsis">...</span>`;
+                    }
+                }
+
+                html += `<button class="page-btn prev-next ${currentPage === totalPages ? 'disabled' : ''}" onclick="window.goToPage(${currentPage + 1})"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>`;
+                html += '</div>';
+                paginationEl.innerHTML = html;
+            }
+
+            window.goToPage = function(page) {
+                const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+                if (page < 1 || page > totalPages) return;
+                currentPage = page;
+                renderTable();
+            };
+
+            // ============================================
+            // FILTERING
+            // ============================================
+            function applyFilters() {
+                const search = filterSearch.value.toLowerCase().trim();
+                const status = filterStatus.value;
+
+                filteredData = categories.filter(cat => {
+                    const matchSearch = !search || cat.name.toLowerCase().includes(search) || cat.slug.toLowerCase().includes(search) || (cat.description && cat.description.toLowerCase().includes(search));
+                    const matchStatus = !status || cat.status === status;
+                    return matchSearch && matchStatus;
+                });
+
+                if (sortCol) {
+                    sortData(sortCol, sortDir, false);
+                }
+
+                currentPage = 1;
+                renderTable();
+
+                const hasFilters = search || status;
+                btnClearFilter.classList.toggle('hidden', !hasFilters);
+            }
+
+            function clearFilters() {
+                filterSearch.value = '';
+                filterStatus.value = '';
+                applyFilters();
+            }
+
+            btnApplyFilter.addEventListener('click', applyFilters);
+            btnClearFilter.addEventListener('click', clearFilters);
+            filterSearch.addEventListener('input', applyFilters);
+            filterStatus.addEventListener('change', applyFilters);
+
+            // ============================================
+            // SORTING
+            // ============================================
+            function sortData(col, dir, toggle = true) {
+                if (toggle) {
+                    if (sortCol === col) {
+                        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortCol = col;
+                        sortDir = 'asc';
+                    }
+                }
+
+                document.querySelectorAll('.sortable').forEach(th => {
+                    th.classList.remove('asc', 'desc');
+                    if (th.dataset.sort === sortCol) {
+                        th.classList.add(sortDir);
+                    }
+                });
+
+                filteredData.sort((a, b) => {
+                    let valA = a[col];
+                    let valB = b[col];
+                    if (typeof valA === 'string') valA = valA.toLowerCase();
+                    if (typeof valB === 'string') valB = valB.toLowerCase();
+                    if (valA < valB) return sortDir === 'asc' ? -1 : 1;
+                    if (valA > valB) return sortDir === 'asc' ? 1 : -1;
+                    return 0;
+                });
+
+                currentPage = 1;
+                renderTable();
+            }
+
+            document.querySelectorAll('.sortable').forEach(th => {
+                th.addEventListener('click', () => sortData(th.dataset.sort, 'asc'));
+            });
+
+            // ============================================
+            // MODAL — Add/Edit
+            // ============================================
+            function openModal(isEdit = false) {
+                modalOverlay.classList.add('active');
+                categoryModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                modalTitle.textContent = isEdit ? 'Edit Category' : 'Add Category';
+                btnSave.textContent = isEdit ? 'Update Category' : 'Save Category';
+
+                // Populate parent dropdown
+                const rootCats = categories.filter(c => c.parent === null && c.id !== editingId);
+                catParent.innerHTML = '<option value="">None (Root Category)</option>' + rootCats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                categoryModal.classList.remove('active');
+                document.body.style.overflow = '';
+                categoryForm.reset();
+                uploadedImage = null;
+                resetUploadZone();
+                resetErrors();
+                editingId = null;
+                catStatusToggle.classList.add('active');
+                catStatusLabel.textContent = 'Active';
+                catStatusToggle.setAttribute('aria-checked', 'true');
+            }
+
+            function resetUploadZone() {
+                uploadZone.querySelector('svg').style.display = 'block';
+                uploadZone.querySelector('.upload-text').style.display = 'block';
+                uploadZone.querySelector('.upload-subtext').style.display = 'block';
+                const existingPreview = uploadZone.querySelector('.upload-preview');
+                if (existingPreview) existingPreview.remove();
+            }
+
+            function resetErrors() {
+                document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+                document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+            }
+
+            btnAddCategory.addEventListener('click', () => { editingId = null; openModal(false); });
+            modalClose.addEventListener('click', closeModal);
+            btnCancel.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', closeModal);
+
+            // Close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (categoryModal.classList.contains('active')) closeModal();
+                    if (deleteModal.classList.contains('active')) closeDeleteModal();
+                }
+            });
+
+            // ============================================
+            // FORM VALIDATION & SAVE
+            // ============================================
+            function validate() {
+                let valid = true;
+                resetErrors();
+
+                if (!catName.value.trim()) {
+                    document.getElementById('errName').textContent = 'Category name is required';
+                    catName.classList.add('error');
+                    valid = false;
+                }
+
+                if (!catSlug.value.trim()) {
+                    document.getElementById('errSlug').textContent = 'Slug is required';
+                    catSlug.classList.add('error');
+                    valid = false;
+                } else if (!/^[a-z0-9-]+$/.test(catSlug.value)) {
+                    document.getElementById('errSlug').textContent = 'Slug must contain only lowercase letters, numbers, and hyphens';
+                    catSlug.classList.add('error');
+                    valid = false;
+                }
+
+                return valid;
+            }
+
+            function slugify(text) {
+                return text.toString().toLowerCase().trim()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w\-]+/g, '')
+                    .replace(/\-\-+/g, '-');
+            }
+
+            catName.addEventListener('input', () => {
+                if (!editingId) {
+                    catSlug.value = slugify(catName.value);
+                }
+            });
+
+            btnSave.addEventListener('click', () => {
+                if (!validate()) return;
+
+                btnSave.classList.add('loading');
+
+                setTimeout(() => {
+                    const data = {
+                        id: editingId || Date.now(),
+                        name: catName.value.trim(),
+                        slug: catSlug.value.trim(),
+                        description: catDesc.value.trim(),
+                        parent: catParent.value || null,
+                        image: uploadedImage,
+                        products: editingId ? (categories.find(c => c.id === editingId)?.products || 0) : 0,
+                        sort: parseInt(catSort.value) || 1,
+                        status: catStatusToggle.classList.contains('active') ? 'active' : 'inactive'
+                    };
+
+                    if (editingId) {
+                        const idx = categories.findIndex(c => c.id === editingId);
+                        if (idx !== -1) {
+                            data.products = categories[idx].products;
+                            categories[idx] = data;
+                        }
+                        showToast('success', 'Category Updated', `"${data.name}" has been updated successfully.`);
+                    } else {
+                        categories.push(data);
+                        showToast('success', 'Category Created', `"${data.name}" has been created successfully.`);
+                    }
+
+                    btnSave.classList.remove('loading');
+                    closeModal();
+                    applyFilters();
+                }, 600);
+            });
+
+            // ============================================
+            // EDIT
+            // ============================================
+            window.editCategory = function(id) {
+                const cat = categories.find(c => c.id === id);
+                if (!cat) return;
+
+                editingId = id;
+                catId.value = id;
+                catName.value = cat.name;
+                catSlug.value = cat.slug;
+                catDesc.value = cat.description || '';
+                catSort.value = cat.sort;
+
+                // Parent
+                const rootCats = categories.filter(c => c.parent === null && c.id !== id);
+                catParent.innerHTML = '<option value="">None (Root Category)</option>' + rootCats.map(c => `<option value="${c.name}" ${c.name === cat.parent ? 'selected' : ''}>${c.name}</option>`).join('');
+
+                // Image
+                uploadedImage = cat.image;
+                if (cat.image) {
+                    showImagePreview(cat.image);
+                } else {
+                    resetUploadZone();
+                }
+
+                // Status
+                if (cat.status === 'active') {
+                    catStatusToggle.classList.add('active');
+                    catStatusLabel.textContent = 'Active';
+                    catStatusToggle.setAttribute('aria-checked', 'true');
+                } else {
+                    catStatusToggle.classList.remove('active');
+                    catStatusLabel.textContent = 'Inactive';
+                    catStatusToggle.setAttribute('aria-checked', 'false');
+                }
+
+                openModal(true);
+            };
+
+            // ============================================
+            // IMAGE UPLOAD
+            // ============================================
+            function showImagePreview(src) {
+                uploadZone.querySelector('svg').style.display = 'none';
+                uploadZone.querySelector('.upload-text').style.display = 'none';
+                uploadZone.querySelector('.upload-subtext').style.display = 'none';
+                const existing = uploadZone.querySelector('.upload-preview');
+                if (existing) existing.remove();
+                const img = document.createElement('img');
+                img.className = 'upload-preview';
+                img.src = src;
+                uploadZone.appendChild(img);
+            }
+
+            catImage.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('error', 'File Too Large', 'Image must be less than 2MB.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    uploadedImage = ev.target.result;
+                    showImagePreview(uploadedImage);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    catImage.files = e.dataTransfer.files;
+                    catImage.dispatchEvent(new Event('change'));
+                }
+            });
+
+            uploadRemove.addEventListener('click', (e) => {
+                e.stopPropagation();
+                uploadedImage = null;
+                catImage.value = '';
+                resetUploadZone();
+            });
+
+            // ============================================
+            // TOGGLE SWITCH
+            // ============================================
+            catStatusToggle.addEventListener('click', () => {
+                const isActive = catStatusToggle.classList.toggle('active');
+                catStatusLabel.textContent = isActive ? 'Active' : 'Inactive';
+                catStatusToggle.setAttribute('aria-checked', isActive);
+            });
+            catStatusToggle.addEventListener('keydown', (e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    catStatusToggle.click();
+                }
+            });
+
+            // ============================================
+            // DELETE
+            // ============================================
+            window.confirmDelete = function(id) {
+                const cat = categories.find(c => c.id === id);
+                if (!cat) return;
+                deletingId = id;
+                deleteText.textContent = `Are you sure you want to delete "${cat.name}"? This action cannot be undone.`;
+                deleteOverlay.classList.add('active');
+                deleteModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            function closeDeleteModal() {
+                deleteOverlay.classList.remove('active');
+                deleteModal.classList.remove('active');
+                document.body.style.overflow = '';
+                deletingId = null;
+            }
+
+            btnCancelDelete.addEventListener('click', closeDeleteModal);
+            deleteOverlay.addEventListener('click', closeDeleteModal);
+
+            btnConfirmDelete.addEventListener('click', () => {
+                if (!deletingId) return;
+                const cat = categories.find(c => c.id === deletingId);
+                categories = categories.filter(c => c.id !== deletingId);
+                showToast('success', 'Category Deleted', `"${cat.name}" has been deleted successfully.`);
+                closeDeleteModal();
+                applyFilters();
+            });
+
+            // ============================================
+            // TOAST NOTIFICATIONS
+            // ============================================
+            function showToast(type, title, message) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const icons = {
+                    success: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+                    error: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+                    info: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+                };
+                toast.innerHTML = `
+                    <div class="toast-icon">${icons[type]}</div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close" aria-label="Close notification"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                `;
+                toastContainer.appendChild(toast);
+
+                requestAnimationFrame(() => toast.classList.add('active'));
+
+                const closeToast = () => {
+                    toast.classList.remove('active');
+                    setTimeout(() => toast.remove(), 400);
+                };
+
+                toast.querySelector('.toast-close').addEventListener('click', closeToast);
+                setTimeout(closeToast, 5000);
+            }
+
+            // ============================================
+            // INIT
+            // ============================================
+            renderTable();
+        })();
+    </script>
+</body>
+</html>

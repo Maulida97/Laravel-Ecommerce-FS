@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile | Tokoku.id</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "on-surface": "#141b2b",
+                        "inverse-surface": "#293040",
+                        "on-primary-fixed": "#0f0069",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-tertiary-fixed": "#151c27",
+                        "outline": "#777587",
+                        "tertiary-container": "#616876",
+                        "secondary-fixed": "#e1e3e4",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#dce2f3",
+                        "on-secondary-container": "#626566",
+                        "secondary-fixed-dim": "#c5c7c8",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c0c7d6",
+                        "surface-container-high": "#e1e8fd",
+                        "secondary": "#5c5f60",
+                        "primary": "#3e32d3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#e9e5ff",
+                        "surface-bright": "#f9f9ff",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#49505d",
+                        "secondary-container": "#e1e3e4",
+                        "primary-container": "#5850ec",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-surface-variant": "#464555",
+                        "surface": "#f9f9ff",
+                        "surface-container": "#e9edff",
+                        "inverse-primary": "#c3c0ff",
+                        "outline-variant": "#c7c4d8",
+                        "on-secondary-fixed-variant": "#454748",
+                        "on-error": "#ffffff",
+                        "on-background": "#141b2b",
+                        "surface-variant": "#dce2f7",
+                        "on-secondary-fixed": "#191c1d",
+                        "surface-tint": "#4e44e2",
+                        "on-tertiary-fixed-variant": "#404754",
+                        "surface-dim": "#d3daef",
+                        "surface-container-highest": "#dce2f7",
+                        "primary-fixed": "#e2dfff",
+                        "on-primary-fixed-variant": "#3424ca",
+                        "background": "#f9f9ff",
+                        "on-tertiary-container": "#e1e8f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "3rem",
+                        "sm": "1rem",
+                        "lg": "2rem",
+                        "gutter": "1.5rem",
+                        "max-width": "1280px",
+                        "xs": "0.5rem",
+                        "unit": "4px",
+                        "md": "1.5rem",
+                        "margin-mobile": "1rem"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            color: #141b2b;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-background">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface dark:bg-on-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<nav class="flex justify-between items-center h-16 px-gutter max-w-max-width mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Tokoku.id</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Shop</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Categories</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Reviews</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-surface-variant">shopping_bag</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-surface-variant">dark_mode</span>
+</button>
+<button class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-bold text-body-md active:scale-95 transition-all">
+                    My Account
+                </button>
+</div>
+</nav>
+</header>
+<div class="flex max-w-max-width mx-auto pt-16 min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col gap-2 p-4 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto bg-surface-container-low dark:bg-inverse-surface w-64 border-r border-outline-variant">
+<div class="mb-6 px-2">
+<div class="w-12 h-12 rounded-full mb-3 bg-primary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-quality close-up portrait of a friendly professional person with a warm smile, set against a clean, minimalist studio background with soft purple ambient lighting. The aesthetic is modern and corporate, reflecting the Tokoku brand identity with clear focus and high-end digital photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNK8W8ioQx5sIEIACnWTG7iAv4ARQSNDmuKpqTDTtzt25YOJeyPtqiWokI5MMCD51fkJOiq2UKUIwP_SZ00pssm9Hy2X7DD1iWYhjNvLuKpSKs1kxPNcr7PlF8KM3_ZmTbawrQEMi2bNUML7WH2QpSnRTQjjBRd0sXe5656OX4tzhb4AdW5_o3IrfAf-luRSSHZe4cPzBEd5yF5LzXD_vRekCDNg-QV062iGu4_HEFC5snBfIEVvQOqe8tpaLEoDxXdYy8n0w7yw"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Welcome back, orang!</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Customer Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary dark:bg-primary-container dark:text-on-primary-container rounded-lg font-bold group transition-all" href="#">
+<span class="material-symbols-outlined" data-weight="fill">person</span>
+<span class="font-label-caps text-label-caps uppercase">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps text-label-caps uppercase">Wishlist</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-caps text-label-caps uppercase">My Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-label-caps text-label-caps uppercase">Checkout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">home_pin</span>
+<span class="font-label-caps text-label-caps uppercase">Address Book</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-caps text-label-caps uppercase">Notification Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-tertiary-container rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-caps text-label-caps uppercase">Payment Methods</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="flex items-center gap-3 px-4 py-3 w-full text-on-surface-variant hover:bg-error-container hover:text-error rounded-lg transition-all">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-label-caps uppercase">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-6 md:p-12 bg-background">
+<div class="max-w-4xl">
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">User Profile</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your personal information and account security settings.</p>
+</div>
+<button class="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-primary/20">
+<span class="material-symbols-outlined">edit</span>
+                        Edit Profile
+                    </button>
+</div>
+<!-- Bento Grid Layout for Profile Info -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Identity Card -->
+<div class="md:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-6 mb-8">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-primary/10">
+<img class="w-full h-full object-cover" data-alt="A sophisticated professional profile avatar of an individual named orang. The image is a studio shot with bright, clean lighting, featuring a minimalist aesthetic that uses the Tokoku corporate color palette of soft whites and deep blues. The background is a subtle gradient, ensuring a premium e-commerce portal atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbEni4vxtJ1LpUaO6j7ZiKdah2YZ5cUE_yK0Wodhah8Vza5poGkq4QEasQcGvtOhnZ4MYQLTq1jq0HmRx8gVGh8zDyEKA_J-eiLB0nJ0VgODsBxk3MTwxGrXTAINOHYEL1ip1arUtTXDn0HYefMnSwmZRcag6mXzsNToY9H8A6ZKNGQ8dPHO071VMg3Owy82X_kuK3VLAf_BQweQJ1Jn1NvhBJX48GRzZhdL9_Nbz-J__koZStJU_cbAqnYWFC8aTF2Ho3An2GvlE"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-1.5 rounded-full shadow-lg border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">orang</h2>
+<p class="text-primary font-medium">Premium Member since 2023</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Email Address</label>
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary/60">mail</span>
+<span class="font-body-lg text-body-lg">orang@tokoku.id</span>
+</div>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Phone Number</label>
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary/60">call</span>
+<span class="font-body-lg text-body-lg">+62 812 3456 7890</span>
+</div>
+</div>
+<div class="sm:col-span-2">
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Biography</label>
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+                                    Enthusiastic tech explorer and frequent shopper at Tokoku.id. I value quality products and efficient service. Always looking for the latest gadgets and lifestyle improvements.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Side Stats/Status Card -->
+<div class="flex flex-col gap-6">
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl shadow-sm">
+<h3 class="font-label-caps text-label-caps uppercase opacity-80 mb-4">Account Status</h3>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-[32px]">verified_user</span>
+<span class="font-headline-sm text-headline-sm">Verified</span>
+</div>
+<div class="w-full bg-on-primary-container/20 h-2 rounded-full overflow-hidden">
+<div class="bg-on-primary-container h-full w-[85%]"></div>
+</div>
+<p class="mt-2 text-xs opacity-70">85% Profile completed</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl shadow-sm">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Quick Actions</h3>
+<ul class="space-y-4">
+<li>
+<a class="flex items-center justify-between group" href="#">
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Change Password</span>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between group" href="#">
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Two-Factor Auth</span>
+<span class="px-2 py-0.5 bg-error-container text-error text-[10px] font-bold rounded uppercase">Off</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between group" href="#">
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Privacy Settings</span>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Recent Activity/Orders - Asymmetric Layout -->
+<div class="mt-12">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Recent Transactions</h2>
+<div class="space-y-4">
+<!-- Order Item 1 -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Order #TK-98210</p>
+<p class="font-body-md text-body-md text-on-surface-variant">2 items • Oct 24, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Rp 1.250.000</p>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Delivered
+                                </span>
+</div>
+</div>
+<!-- Order Item 2 -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Order #TK-98115</p>
+<p class="font-body-md text-body-md text-on-surface-variant">1 item • Oct 20, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Rp 450.000</p>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    On Delivery
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex justify-around items-center h-16 px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px] font-bold uppercase">Explore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase">Cart</span>
+</a>
+</div>
+<script>
+        // Micro-interaction for hover effects and active states
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.style.transform = 'scale(0.98)';
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.style.transform = 'scale(1)';
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

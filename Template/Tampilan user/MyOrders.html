@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Orders - Tokoku.id</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "on-surface": "#141b2b",
+                      "inverse-surface": "#293040",
+                      "on-primary-fixed": "#0f0069",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-low": "#f1f3ff",
+                      "on-tertiary-fixed": "#151c27",
+                      "outline": "#777587",
+                      "tertiary-container": "#616876",
+                      "secondary-fixed": "#e1e3e4",
+                      "on-primary": "#ffffff",
+                      "primary-fixed-dim": "#c3c0ff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed": "#dce2f3",
+                      "on-secondary-container": "#626566",
+                      "secondary-fixed-dim": "#c5c7c8",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c0c7d6",
+                      "surface-container-high": "#e1e8fd",
+                      "secondary": "#5c5f60",
+                      "primary": "#3e32d3",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#e9e5ff",
+                      "surface-bright": "#f9f9ff",
+                      "error-container": "#ffdad6",
+                      "tertiary": "#49505d",
+                      "secondary-container": "#e1e3e4",
+                      "primary-container": "#5850ec",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-surface-variant": "#464555",
+                      "surface": "#f9f9ff",
+                      "surface-container": "#e9edff",
+                      "inverse-primary": "#c3c0ff",
+                      "outline-variant": "#c7c4d8",
+                      "on-secondary-fixed-variant": "#454748",
+                      "on-error": "#ffffff",
+                      "on-background": "#141b2b",
+                      "surface-variant": "#dce2f7",
+                      "on-secondary-fixed": "#191c1d",
+                      "surface-tint": "#4e44e2",
+                      "on-tertiary-fixed-variant": "#404754",
+                      "surface-dim": "#d3daef",
+                      "surface-container-highest": "#dce2f7",
+                      "primary-fixed": "#e2dfff",
+                      "on-primary-fixed-variant": "#3424ca",
+                      "background": "#f9f9ff",
+                      "on-tertiary-container": "#e1e8f8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "3rem",
+                      "sm": "1rem",
+                      "lg": "2rem",
+                      "gutter": "1.5rem",
+                      "max-width": "1280px",
+                      "xs": "0.5rem",
+                      "unit": "4px",
+                      "md": "1.5rem",
+                      "margin-mobile": "1rem"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-border {
+            position: relative;
+        }
+        .active-nav-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar Component -->
+<header class="bg-surface sticky top-0 z-50 border-b border-outline-variant shadow-sm docked full-width">
+<div class="flex justify-between items-center h-16 px-gutter max-w-max-width mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Tokoku.id</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Categories</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Reviews</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-48" placeholder="Search products..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all active:scale-95 relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute top-1 right-1 w-4 h-4 bg-primary text-[10px] text-on-primary flex items-center justify-center rounded-full font-bold">2</span>
+</button>
+<button class="hidden md:flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg font-bold hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">person</span>
+<span>My Account</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-max-width mx-auto flex">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col gap-2 p-4 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto w-64 bg-surface-container-low">
+<div class="px-2 py-4 mb-4 flex items-center gap-3">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a modern Indonesian customer in their late 20s, smiling warmly against a soft, clean light gray background. The lighting is flattering and high-key, aligning with a corporate modern and approachable aesthetic. The image exudes trust and a premium e-commerce user experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvjjE00MprT30PkeC3Gs_B5eO-pr1hw1MUosGyz7urENQ4RDsKeRhTVZGhVRnYCGE2LXV6dhFjwcxOtYPYEFgkyEvyJrMXYAxHt0ZQttM0JdPTBnTYaOsIfire_Zf0yNvXj8YCo5oEcBwb-P8_ltVqQWeFu1h44ObXU11QlKNiXZlBPNbcjVEcfXQn1nmC_Re8jE3vFb__YaJ4EmnXzhwK6H9MDoX6iCmrFoEqy4gvGtjt5fazpvxz2EFhBxu7lX9FC1X7uesAUvg"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Welcome back, orang!</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">Customer Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-caps text-label-caps">Wishlist</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-bold shadow-sm opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-caps text-label-caps">My Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-label-caps text-label-caps">Checkout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="home_pin">home_pin</span>
+<span class="font-label-caps text-label-caps">Address Book</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-caps text-label-caps">Notification Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps">Payment Methods</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="flex items-center gap-3 px-4 py-3 w-full text-error hover:bg-error-container/20 transition-all rounded-lg">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-caps text-label-caps font-bold">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-lg md:p-xl min-w-0">
+<!-- Header Section -->
+<div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">My Orders</h1>
+<p class="text-body-lg text-on-surface-variant">Track, manage, and view the history of all your purchases.</p>
+</div>
+<div class="flex gap-2">
+<div class="bg-surface-container-highest px-4 py-2 rounded-xl flex flex-col items-center justify-center min-w-[100px]">
+<span class="font-headline-sm text-headline-sm text-primary">12</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">Active</span>
+</div>
+<div class="bg-surface-container-highest px-4 py-2 rounded-xl flex flex-col items-center justify-center min-w-[100px]">
+<span class="font-headline-sm text-headline-sm text-secondary">48</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">Completed</span>
+</div>
+</div>
+</div>
+<!-- Bento Filter Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="md:col-span-2 relative">
+<span class="absolute inset-y-0 left-4 flex items-center text-outline">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search by Order ID or Product..." type="text"/>
+</div>
+<div class="flex gap-4">
+<select class="flex-1 bg-white border border-outline-variant rounded-xl px-4 py-3 font-body-md outline-none focus:ring-2 focus:ring-primary">
+<option>Status: All</option>
+<option>Shipped</option>
+<option>Processing</option>
+<option>Delivered</option>
+<option>Cancelled</option>
+</select>
+</div>
+<button class="bg-white border border-outline-variant rounded-xl px-4 py-3 flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="font-label-caps">Advanced Filter</span>
+</button>
+</div>
+<!-- Orders Table Container -->
+<div class="bg-white border border-outline-variant rounded-2xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low/50">
+<tr>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Order ID</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Date</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Status</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Items</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Total Amount</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border-b border-outline-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Order Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">#TK-882910</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-on-surface-variant">Oct 24, 2023</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary-container/20 text-primary-container border border-primary-container/30">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container mr-2 animate-pulse"></span>
+                                        Processing
+                                    </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-lg border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A close-up studio shot of a high-end minimalist mechanical keyboard with lavender keycaps, set against a crisp white background. The aesthetic is clean, professional, and modern, fitting a premium tech lifestyle product photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr3tQuprhhuMfaphAX1Fq9ysa11OnjlfQndPGZegj3s9-nkO5vhpabExDoYxpfUXyeDwjPD78JSPKnBAbgUBzDQ_tI5NTzrH3DldUU42jyfl9OjvnLu39KQOHRp8wjbaahnjqUHR4sCGfAJ9zLJwUbeQ90XdTGXY-KEQjn0yJur-Z5HIbKG752cQ0tr_uKpKPT1zYyRbl-twEUm6jW8E9Fs-tNJjs_uInxXgexxlNeM3zReSk93pDVXls_beUhhRG-1P0Ytlj-y-Y"/>
+</div>
+<div class="w-8 h-8 rounded-lg border-2 border-white overflow-hidden bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface-variant">
+                                            +2
+                                        </div>
+</div>
+</td>
+<td class="px-6 py-5 font-bold text-on-surface">
+                                    Rp 1.450.000
+                                </td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">View Details</button>
+</td>
+</tr>
+<!-- Order Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">#TK-882905</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-on-surface-variant">Oct 21, 2023</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-tertiary-fixed-dim/20 text-tertiary border border-tertiary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-2"></span>
+                                        Shipped
+                                    </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-lg border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Professional studio photograph of high-fidelity wireless headphones in a sleek matte black finish. The image is minimalist and set against a bright, airy background, emphasizing elegant curves and premium materials consistent with a high-end e-commerce store." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr_t28dkK3fIUHITXJOJt8DLr5PgZPmgauLGubWXov6X2yXoCg43MgIvCWm78tuVadBQiZUUtOAd6BX9VC6dNSSjexmUgvBHcYPWZeU19ofUGLskGshSrc6RCdlIRBoZ1dWNOd57cSvRpbPnKIG_ju6ffuG3-jYTTf6oQqIN7pibNIiZyh-i7qwq74jVRtFs7wBgAAPMupf9mWfljUxawAhXoNTkyVxmnIjixdMS9Ayqgvu6iiUWXlACuIV1ryxFTU4Xo4jQPNdIg"/>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-bold text-on-surface">
+                                    Rp 2.899.000
+                                </td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">View Details</button>
+</td>
+</tr>
+<!-- Order Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">#TK-882890</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-on-surface-variant">Oct 15, 2023</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 border border-green-200">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span>
+                                        Delivered
+                                    </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-lg border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A high-quality product image of a sleek smart watch with a light gray strap, displayed prominently on a clean white pedestal. The lighting is soft and neutral, conveying a sense of modern luxury and reliable technology for a sophisticated consumer base." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-EME089KCw1nl1Thgmnap4vZdJgqZoTZTzTPmbD784_kMQD-MQE50zMhzNmxzrS_hG45g7_l6Lw__uY0bEPxCkUvp0Nw2tFV_AQHj2TUGYi36__5uqXvKk2A7x7NehSyiiqd4QkjjWpWtawWjrnnyavOmkic4UIP0S_fOWrRcUDVGEl9VIsjTuvz89Dp42XG5XMBcfgdANlXPdlqeYcrWdcD8dx6-u7TlW0LuA2f-pUUMt4K9MgF3meJy2AyWr58XLUJ8KJ34g2o"/>
+</div>
+<div class="w-8 h-8 rounded-lg border-2 border-white overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up of a sustainable glass water bottle with a bamboo lid, photographed in a bright, clean lifestyle setting. The aesthetic is organic yet modern, using a palette of whites and soft greens to appeal to eco-conscious shoppers in a premium marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeB1OROW6wJMwNqr9Mg6nUOupsRFIWwponlhX1QydZprqRV5Jp7u9XRBIgqsGj5TjSQms4pY_wGQkuntsZGTsCbfM4vhKX7JN51EBf8OQ_wKlKWgkfv1VFAonoYwJa4f8i3xV5HoElDWF7DBK0T3j-tM9JfuUvDFaWbCs0gqXMXxdzWgpmWV6Q-QTY85lOr_uC0oGtCrM4XJ6ZCXIH16A_cdWIqXbhoqKXrFRz67wjR4TqnIWLQjpH9uRRhpb5yab906VusB0unto"/>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-bold text-on-surface">
+                                    Rp 540.000
+                                </td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">Invoice</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 bg-surface-container-low/30 border-t border-outline-variant flex items-center justify-between">
+<span class="text-body-md text-on-surface-variant">Showing 1 to 10 of 60 orders</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Help Section (Asymmetric Card) -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-gradient-to-r from-primary to-primary-container p-lg rounded-3xl text-on-primary relative overflow-hidden group">
+<div class="relative z-10 max-w-md">
+<h2 class="font-headline-md text-headline-md mb-2">Need help with an order?</h2>
+<p class="opacity-90 mb-6">Our 24/7 support team is here to assist with tracking, returns, or any questions about your purchases.</p>
+<button class="bg-white text-primary px-6 py-3 rounded-xl font-bold hover:scale-105 transition-transform active:scale-95">Contact Support</button>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-20 -bottom-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500"></div>
+</div>
+<div class="bg-white border border-outline-variant p-lg rounded-3xl flex flex-col items-center text-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-[32px]">assignment_return</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-1">Easy Returns</h3>
+<p class="text-body-md text-on-surface-variant mb-4">Not satisfied? Return within 30 days.</p>
+<a class="text-primary font-bold text-sm hover:underline" href="#">Return Policy →</a>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom NavBar (Visible on small screens) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant px-6 py-3 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-[10px] font-bold">Wishlist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="text-[10px] font-bold">Orders</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const orderId = row.querySelector('td:first-child').innerText;
+                console.log(`Navigating to order: ${orderId}`);
+            });
+        });
+
+        // Search highlight interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput?.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('border-primary');
+        });
+        searchInput?.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('border-primary');
+        });
+    </script>
+</body></html>
